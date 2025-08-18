@@ -1,4 +1,4 @@
-# 🛒 Simple E-Commerce Website
+# 🛒E-Commerce Website (Dev-Ops Project)
 
 This is a simple e-commerce web application built with **Flask**,
 **HTML**, and **CSS**.\
