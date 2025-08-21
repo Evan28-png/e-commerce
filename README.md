@@ -19,7 +19,7 @@ page (product listing) and a product checkout page.
 
 ## 📂 Project Structure
 
-    ecommerce-flask/
+    e-commerce/
     │
     ├── static/
     │   └── styles.css        # Custom CSS for styling
@@ -41,7 +41,7 @@ page (product listing) and a product checkout page.
 Install dependencies:
 
 ``` bash
-pip install flask
+pip install -r requirements
 ```
 
 ------------------------------------------------------------------------
@@ -51,8 +51,8 @@ pip install flask
 1.  Clone the repository:
 
     ``` bash
-    git clone https://github.com/your-username/ecommerce-flask.git
-    cd ecommerce-flask
+    git clone https://github.com/Evan28-png/e-commerce.git
+    cd e-commerce
     ```
 
 2.  Run the Flask server:

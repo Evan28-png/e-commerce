@@ -1,0 +1,23 @@
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+# Ignore environment files
+.venv
+.env
+.env.local
+
+# Ignore Vim swap files
+*.swp
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore log files
+*.log
+
+# Ignore local development folders
+node_modules/
+venv/
+
