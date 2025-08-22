@@ -3,11 +3,17 @@ import pymysql
 import cryptography
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+db_user = os.getenv('DB_USER')
+db_pass = os.getenv('DB_PASS')
+db_host = os.getenv('DB_HOST')   
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'HARD TO GUESS STRING'
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://app:Pierreevan@localhost:3306/e_commerce'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] =False
+app.config['SECRET_KEY'] = os.getenv('SECRET')
+app.config['SQLALCHEMY_DATABASE_URI']=f'mysql+pymysql://{db_user}:{db_pass}@{db_host}:3306/e_commerce'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS')
 db = SQLAlchemy(app)
 migrate = Migrate(app,db)
 
