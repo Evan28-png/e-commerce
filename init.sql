@@ -4,6 +4,6 @@ CREATE DATABASE IF NOT EXISTS e_commerce;
 
 CREATE USER IF NOT EXISTS 'app'@'%' IDENTIFIED BY 'Pierreevan';
 
-GRANT ALL PRIVILEGES ON flask.* TO 'app'@'%';
+GRANT ALL PRIVILEGES ON e_commerce.* TO 'app'@'%';
 
 FLUSH PRIVILEGES;

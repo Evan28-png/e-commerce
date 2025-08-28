@@ -18,7 +18,6 @@ db = SQLAlchemy(app)
 migrate = Migrate(app,db)
 
 #Models
-
 class Product(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
@@ -37,4 +36,4 @@ def checkout(book_id):
     return render_template('checkout.html', product=product)
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=3000)

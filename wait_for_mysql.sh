@@ -3,9 +3,14 @@ while ! nc -z db 3306; do
   echo "Waiting for MySQL to start..."
   sleep 1.4
 done
-echo "MySQL is up!"
+echo "✅ MySQL is up, running migrations..."
 flask db upgrade 
-gunicorn app:app --bind 0.0.0.0:5000 --log-level debug --capture-output
+
+echo "✅ Loading backup.sql"
+mysql -h "$DB_HOST" -u "$DB_USER" -p "$DB_PASS" e_commerce < backup.sql
+
+echo "✅ Starting application....."
+gunicorn app:app -w 2 --bind 0.0.0.0:3000 --log-level debug --capture-output
 
 #use exec only once pref last command to run
-#as it repleacves the shell
+#as it replaces the shell
