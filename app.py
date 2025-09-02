@@ -3,22 +3,27 @@ import pymysql
 import cryptography
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+db_user = os.getenv('DB_USER')
+db_pass = os.getenv('DB_PASS')
+db_host = os.getenv('DB_HOST')   
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'HARD TO GUESS STRING'
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://app:Pierreevan@localhost:3306/e_commerce'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] =False
+app.config['SECRET_KEY'] = os.getenv('SECRET')
+app.config['SQLALCHEMY_DATABASE_URI']=f'mysql+pymysql://{db_user}:{db_pass}@{db_host}:3306/e_commerce'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS')
 db = SQLAlchemy(app)
 migrate = Migrate(app,db)
 
 #Models
-
 class Product(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(34), index=True)
+    name = db.Column(db.String(255), index=True)
     price = db.Column(db.Integer())
-    image_url = db.Column(db.String(34), index=True)
+    image_url = db.Column(db.String(255), index=True)
 
 @app.route('/', methods=['GET'])
 def index():
@@ -31,4 +36,4 @@ def checkout(book_id):
     return render_template('checkout.html', product=product)
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=3000)
