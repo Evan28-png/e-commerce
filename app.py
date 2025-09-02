@@ -21,9 +21,9 @@ migrate = Migrate(app,db)
 class Product(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(34), index=True)
+    name = db.Column(db.String(255), index=True)
     price = db.Column(db.Integer())
-    image_url = db.Column(db.String(34), index=True)
+    image_url = db.Column(db.String(255), index=True)
 
 @app.route('/', methods=['GET'])
 def index():
