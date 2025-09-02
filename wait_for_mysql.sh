@@ -6,9 +6,6 @@ done
 echo "✅ MySQL is up, running migrations..."
 flask db upgrade 
 
-echo "✅ Loading backup.sql"
-mysql -h "$DB_HOST" -u "$DB_USER" -p "$DB_PASS" e_commerce < backup.sql
-
 echo "✅ Starting application....."
 gunicorn app:app -w 2 --bind 0.0.0.0:3000 --log-level debug --capture-output
 
