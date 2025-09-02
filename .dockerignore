@@ -1,0 +1,12 @@
+# Ignore local environment files
+.env
+.venv
+
+# Ignore git stuff
+.git
+.gitignore
+
+# Ignore local data, logs
+*.log
+data/
+
