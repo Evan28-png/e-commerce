@@ -14,30 +14,33 @@ pipeline {
             }
         }
 
-	stage('Prepare Environment') {
-		    steps {
-			withCredentials([file(credentialsId: 'db-env-file', variable: 'ENV_FILE')]) {
-			    sh '''
-				echo "Loading env file..."
-				cp $ENV_FILE .env   # Copy into workspace
-			    '''
-			}
-		    }
+        stage('Prepare Environment') {
+            steps {
+                withCredentials([file(credentialsId: 'db-env-file', variable: 'ENV_FILE')]) {
+                    sh '''
+                    echo "Loading env file..."
+                    cp $ENV_FILE .env   # Copy into workspace
+                    '''
+                }
+            }
+        }
+            
 
         stage('Build & Run') {
             steps {
                 // Run docker-compose commands in the repo root so init.sql is accessible
                 dir('.') {
-		    sh 'export JOB_NAME=$JOB_NAME'
-                    sh 'docker-compose build'
-                    sh 'docker-compose up -d'
+		        sh 'export JOB_NAME=$JOB_NAME'
+                sh 'docker-compose build'
+                sh 'docker-compose up -d'
                 }
-            }
+            }    
+            
         }
 
         stage('Test') {
             steps {
-		pytest test.py
+                pytest test.py
             }
         }
     }
