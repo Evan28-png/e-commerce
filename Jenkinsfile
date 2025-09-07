@@ -14,7 +14,7 @@ pipeline {
 
         stage('Prepare Environment') {
             steps {
-                withCredentials([file(credentialsId: 'db-env-file', variable: 'ENV_FILE')]) {
+                withCredentials([file(credentialsId: 'env-file', variable: 'ENV_FILE')]) {
                     sh '''
                         echo "Loading env file..."
                         cp $ENV_FILE .env   # Copy into workspace
