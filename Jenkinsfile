@@ -34,7 +34,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'pytest test.py'
+                sh 'docker-compose run --rm app pytest test.py'
             }
         }
     }
