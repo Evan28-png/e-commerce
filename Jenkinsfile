@@ -3,6 +3,8 @@ pipeline {
 
     environment {
         COMPOSE_PROJECT_NAME = "ecommerce"
+        DOCKER_IMAGE="evann23/e-commerce"
+        DOCKER_TAG="build-${env.BUILD_NUMBER}"
     }
 
     stages {
@@ -38,6 +40,16 @@ pipeline {
             }
         }
     }
+        stage('Docker Push') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-secret', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh '''
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker push $DOCKER_IMAGE:$DOCKER_TAG
+                    '''
+                }
+            }
+        }
 
     post {
         always {

@@ -16,6 +16,7 @@ services:
 
   app:
     build: ./
+    image: ${DOCKER_IMAGE}:${DOCKER_TAG}
     env_file:
       - .env
     ports:
