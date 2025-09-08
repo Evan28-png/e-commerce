@@ -39,7 +39,7 @@ pipeline {
                 sh 'docker-compose run --rm app pytest test.py'
             }
         }
-    }
+
         stage('Docker Push') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-secret', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
@@ -50,6 +50,8 @@ pipeline {
                 }
             }
         }
+    }
+        
 
     post {
         always {
