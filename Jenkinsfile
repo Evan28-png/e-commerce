@@ -40,6 +40,12 @@ pipeline {
             }
         }
 
+        stage('Scan with trivy') {
+            steps {
+                sh 'docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --timeout 20m --scanners vuln --exit-code 0 --severity HIGH,CRITICAL $DOCKER_IMAGE:$DOCKER_TAG'
+            }
+        }
+        
         stage('Docker Push') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-secret', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
@@ -55,8 +61,8 @@ pipeline {
 
     post {
         always {
-            echo "waiting for 10 mins before cleanup"
-            sleep time: 600, unit: 'SECONDS'
+            echo "waiting for 6 mins before cleanup"
+            sleep time: 360, unit: 'SECONDS'
 
             dir('.') {
                 sh 'docker-compose down -v'
