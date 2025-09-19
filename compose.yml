@@ -6,16 +6,17 @@ services:
     restart: always
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - /opt/jenkins_agent/workspace/${JOB_NAME}/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks: 
       - app-network
     environment:
-      MYSQL_ROOT_PASSWORD: "Pierreevan"
+      MYSQL_ROOT_PASSWORD: ${DB_PASS} 
     ports:
       - "3306:3306"
 
   app:
     build: ./
+    image: ${DOCKER_IMAGE}:${DOCKER_TAG}
     env_file:
       - .env
     ports:
