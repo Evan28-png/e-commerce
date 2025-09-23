@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 import os
 from dotenv import load_dotenv
+from prometheus_flask_exporter import PrometheusMetrics
 
 load_dotenv()
 db_user = os.getenv('DB_USER')
@@ -16,6 +17,10 @@ app.config['SQLALCHEMY_DATABASE_URI']=f'mysql+pymysql://{db_user}:{db_pass}@{db_
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS')
 db = SQLAlchemy(app)
 migrate = Migrate(app,db)
+
+# Enable Prometheus metrics
+metrics = PrometheusMetrics(app)
+metrics.info('app_info', 'E-commerce app with monitoring', version='1.0.0')
 
 #Models
 class Product(db.Model):
