@@ -12,4 +12,4 @@ scrape_configs:
 
   - job_name: 'my_app'
     static_configs:
-      - targets: [app:3000']   # change this to your app container name + port
+      - targets: ['app:3000']   # change this to your app container name + port
