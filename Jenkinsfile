@@ -56,6 +56,44 @@ pipeline {
                 }
             }
         }
+        stage('Provision EC2 and Deploy Containers') {
+            steps {
+            dir('terraform') { // adjust if main.tf is in a different folder
+                sh '''
+                    # Initialize and apply Terraform
+                    terraform init -input=false
+                    terraform apply -auto-approve -input=false
+
+                    # Get the public IP of the new EC2 instance
+                    PUBLIC_IP=$(terraform output -raw public_ip)
+                    echo "EC2 instance public IP: $PUBLIC_IP"
+
+                    # Wait for SSH to become available
+                    echo "Waiting for EC2 to be ready for SSH..."
+                    for i in {1..20}; do
+                    if nc -zv $PUBLIC_IP 22 >/dev/null 2>&1; then
+                        echo "SSH is up!"
+                        break
+                    fi
+                    echo "Retrying in 15s..."
+                    sleep 15
+                    done
+
+                    # SSH into the instance and run Docker commands
+                    ssh -o StrictHostKeyChecking=no -i ~/.ssh/your_key.pem ec2-user@$PUBLIC_IP << 'EOF'
+                        sudo apt update -y
+                        sudo apt install -y docker
+                        sudo systemctl start docker
+                        sudo systemctl enable docker
+
+                        # Pull and run your Docker container(s)
+                        docker pull $DOCKER_IMAGE:$DOCKER_TAG
+                        docker run -d -p 5000:3000 $DOCKER_IMAGE:$DOCKER_TAG 
+                    EOF
+                '''
+                }
+            }
+        }
     }
         
 
